@@ -1,0 +1,72 @@
+
+Eventos
+
+  evento numero: id 		
+  name      nome
+  status    Inscrições abertas
+  dtStart   Data Evento
+  qtdHours  carga horaria 
+  
+  () USER > Fazer inscrição > se estiver aberta. Desativada caso esteja finalizada.
+  () ADMIN > Desativar Inscrições
+  
+  
+  .:Dialog:.
+  imagem	Banner         
+  
+  dtStart   Data Inicio Evento
+  dtEnd   	Data Final Evento
+  
+  Aberta as incrições
+  Inscrições Até dia: 	dtFinish
+  
+  
+Participacao
+  
+  Inscrição numero: id
+  Nome Participante: userID > name
+  Nome evento:  eventId > name
+  Data inscrição : createdAt
+	
+  .:dialog:.
+  Inscrição
+  Carga horaria
+  (Imprimir Inscrição)
+
+  
+Perfil Usuario:
+
+	Nome: name
+	senha: password
+	confirmar_senha: password
+	avatar: avatar
+
+
+Certificado
+
+	Numero: key
+	insrição numero idParticipation
+	evento: nome
+	carga horaria 
+	gerado dia createdAt
+	(Imprimir)
+	(Enviar Email)
+
+
+
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum StatusCertificate {
+  WAITING
+  APPROVED
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  CANCELED
+}
