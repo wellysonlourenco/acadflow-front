@@ -1,11 +1,27 @@
+import { EventsResponse } from "@/api/get-events";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { api } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
+import { useSearchParams } from "react-router-dom";
 import { EventTableFilters } from "./event-table-filters";
 import { EventTableRow } from "./event-table-row";
 
 export function Events() {
+    const [searchParams, setSearchParams] = useSearchParams()
+
+
+    const { data: eventsResponse, isLoading, error } = useQuery<EventsResponse>({
+        queryKey: ['get-eventos'],
+        queryFn: async () => {
+            const response = await api.get(`/events`);
+            return response.data;
+        }
+    })
+
+
     return (
         <>
             <Helmet title="Eventos" />
@@ -34,8 +50,8 @@ export function Events() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {Array.from({ length: 10 }).map((_, i) => {
-                                    return <EventTableRow key={i} />
+                                {eventsResponse && eventsResponse.events.map((events) => {
+                                    return <EventTableRow key={events.id} events={events} />
                                 })}
                             </TableBody>
                         </Table>
