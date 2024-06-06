@@ -1,8 +1,10 @@
 import { api } from "@/lib/api";
 import { jwtDecode } from "jwt-decode";
+
+
 export interface GetProfileResponse {
   id?: string;
-  name: string;
+  name?: string;
   email: string;
   role: 'ADMIN' | 'USER';
   createdAt: Date | null;
@@ -16,18 +18,14 @@ export async function getProfile() {
   if (!token) {
     throw new Error("Token não encontrado no armazenamento local.");
   }
+  const user = jwtDecode(token); // decode your token here
+  const userId = user.sub;
 
-  // Decodifique o token para obter o payload
-  const decodedHeader = jwtDecode(token, { header: true });
+  console.log(userId);
 
-  // Extraia o ID do payload decodificado
-  const userId = decodedHeader.;
 
-  if (!userId) {
-    throw new Error("ID do usuário não encontrado no token.");
-  }
 
-  const response = await api.get<GetProfileResponse>(`/me/${userId}`);
-
+  const response = await api.get<GetProfileResponse>(`/users/me/${userId}`);
+  console.log(response.data);
   return response.data;
 }

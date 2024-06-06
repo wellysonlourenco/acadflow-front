@@ -15,12 +15,12 @@ export function AccountMenu() {
     })
 
 
+    console.log(profile?.name)
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-2 select-none">
                     <div className="flex flex-col items-end gap-0.5">
-
                         {isLoadingProfile ? (
                             <div className="space-y-1.5">
                                 <Skeleton className="h-4 w-32" />
@@ -46,7 +46,7 @@ export function AccountMenu() {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
                     <LogOut className="w-4 h-4 mr-2" />
-                    <span>Sair</span>
+                    <button >Sair</button>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
