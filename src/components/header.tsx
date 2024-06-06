@@ -6,15 +6,15 @@ import { Separator } from "./ui/separator";
 
 export function Header() {
     return (
-        <div className="border-b">
+        <div className="border-b ">
             <div className="flex h-16 items-center gap-6 px-6">
-                <img src="/logo.svg" alt="Logo" className="h-8 w-8" />
+                <img src="/logo.svg" alt="Logo" className="h-8" />
                 <span>AcadFlow</span>
-                <Separator orientation="vertical" className="h-6" />
+                <Separator orientation="vertical" className="h-1" />
 
                 <nav className="flex items-center space-x-4 lg:space-x-6">
                     <NavLink to="/">
-                        <Home className="h-4 w-4" /> Inicio
+                        <Home className="h- w-4" /> Inicio
                     </NavLink>
                     <NavLink to="/events">
                         <Calendar className="h-4 w-4" /> Eventos

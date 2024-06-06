@@ -31,9 +31,10 @@ export function SignIn() {
         signIn({ email: data.email, password: data.password }); 
         
         if(signed) {
-            return <Link to="/dashboard" />
+            return <Link to="/" />
         } else {
             toast.error('Credenciais inválidas.')
+            
         }
 
     }

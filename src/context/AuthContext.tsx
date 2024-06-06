@@ -50,8 +50,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
           "Authorization"
         ] = `Bearer ${response.data.token}`;
   
-        localStorage.setItem("@Auth:user", JSON.stringify(response.data.user));
         localStorage.setItem("@Auth:token", response.data.token);
+        <Navigate to="/" />;
 
       } else {
         toast.error('Credenciais inválidas.')

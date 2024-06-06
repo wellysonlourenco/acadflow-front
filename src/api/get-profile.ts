@@ -3,13 +3,14 @@ import { jwtDecode } from "jwt-decode";
 
 
 export interface GetProfileResponse {
-  id?: string;
-  name?: string;
+  userData: UserData;
+}
+
+export interface UserData {
+  id: string;
+  name: string;
   email: string;
-  role: 'ADMIN' | 'USER';
-  createdAt: Date | null;
-  updatedAt: Date | null;
-  avatar?: string | null;
+  avatarUrl?: any;
 }
 
 export async function getProfile() {
@@ -18,8 +19,8 @@ export async function getProfile() {
   if (!token) {
     throw new Error("Token não encontrado no armazenamento local.");
   }
-  const user = jwtDecode(token); // decode your token here
-  const userId = user.sub;
+  const decodedToken = jwtDecode(token); // decode your token here
+  const userId = decodedToken.sub;
 
   console.log(userId);
 

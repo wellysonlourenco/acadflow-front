@@ -15,7 +15,7 @@ export function AccountMenu() {
     })
 
 
-    console.log(profile?.name)
+    console.log(profile?.userData.name)
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -28,9 +28,9 @@ export function AccountMenu() {
                             </div>
                         ) : (
                             <>
-                                <span>{profile?.name}</span>
+                                <span>{profile?.userData.name}</span>
                                 <span className="text-xs font-normal text-muted-foreground">
-                                    {profile?.email}
+                                    {profile?.userData.email}
                                 </span>
                             </>
                         )}

@@ -25,7 +25,7 @@ interface EventTableRowProps {
 
 export function EventTableRow({ events }: EventTableRowProps) {
     return (
-        <TableRow>
+        <TableRow >
             <TableCell>
                 <Dialog>
                     <DialogTrigger asChild>
@@ -44,8 +44,8 @@ export function EventTableRow({ events }: EventTableRowProps) {
                             <div className="items-center">
                                 <img src="\logo.svg" alt="" className="w-[100px]" />
                             </div>
-                            <Table>
-                                <TableBody>
+                            <Table  >
+                                <TableBody >
                                     <TableRow>
                                         <TableCell className="text-muted-foreground">
                                             {events.status === 'ACTIVE' ? 'Inscrições abertas' : 'Inscrições encerradas'}
