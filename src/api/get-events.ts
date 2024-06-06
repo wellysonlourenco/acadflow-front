@@ -1,3 +1,5 @@
+import { api } from "@/lib/api";
+
 export interface EventsResponse {
     events: Event[];
     pageIndex: number;
@@ -16,4 +18,10 @@ export interface Event {
     createdAt: string;
     updatedAt: string;
     imagem: string;
+}
+
+export async function getEvents({ }: EventsResponse) {
+    const response = await api.get<Event>('/events')
+    return response.data
+
 }
