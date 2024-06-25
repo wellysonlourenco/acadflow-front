@@ -1,12 +1,13 @@
 import { EventsResponse } from "@/api/get-events";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { api } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import CreateEventsForm from "./create-form-events";
 import { EventTableFilters } from "./event-table-filters";
 import { EventTableRow } from "./event-table-row";
 
@@ -20,7 +21,7 @@ export function Events() {
 
 
     const { data: eventsResponse, isLoading, error } = useQuery<EventsResponse>({
-        queryKey: ['get-eventos, page, pageSize'],
+        queryKey: ['eventos', page, pageSize],
         queryFn: async () => {
             const response = await api.get(`/events?page=${page}&pageSize=${pageSize}`);
             return response.data;
@@ -37,13 +38,11 @@ export function Events() {
                 <h1 className="text-3xl font-bold tracking-tight">Eventos</h1>
                 <div className="space-y-2.5">
 
-                    <Dialog>
-                        <DialogTrigger asChild>
-                        <Button variant="outline">
-                            Criar Evento
+                        <Button variant="outline" asChild>
+                            <CreateEventsForm />
                         </Button>
-                        </DialogTrigger>
 
+                    <Dialog>
                         <DialogPortal>
                             <DialogOverlay>
                                 <DialogContent>
