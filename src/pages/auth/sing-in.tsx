@@ -5,7 +5,7 @@ import { AuthContext } from "@/context/AuthContext";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -19,12 +19,22 @@ type SingInForm = z.infer<typeof singInForm>
 
 
 export function SignIn() {
+    const [searchParams] = useSearchParams();
+
     const { signIn, signed } = React.useContext(AuthContext);
-    const { register, handleSubmit, formState: { isSubmitted } } = useForm<SingInForm>();
+
+
+    const { register, handleSubmit, formState: { isSubmitted } } = useForm<SingInForm>({
+        defaultValues: {
+            email: searchParams.get('email') || "",
+        },
+    })
+
     const [showPassword, setShowPassword] = React.useState(false);
 
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+
 
 
     async function handleSignIn(data: SingInForm) {

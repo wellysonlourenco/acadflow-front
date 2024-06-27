@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { api } from "@/lib/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -12,7 +15,7 @@ const singUpForm = z.object({
     name: z.string().min(3),
     email: z.string().email(),
     password: z.string(),
-    confirmPassword: z.string(),
+    confirmPassword: z.string()
 })
 
 type SingUpForm = z.infer<typeof singUpForm>
@@ -20,36 +23,79 @@ type SingUpForm = z.infer<typeof singUpForm>
 
 export function SignUp() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const [email, setEmail] = useState()
 
-    const { register, handleSubmit, formState: { isSubmitted } } = useForm<SingUpForm>();
+    
 
-    async function handleSignUp(data: SingUpForm) {
-        
-        if (data.password !== data.confirmPassword) {
+
+    // function handleSingUp() {
+    //     if (!name || !email || !password) {
+    //         toast.error('Preencha todos os campos!', { duration: 5000 });
+    //         return;
+    //     }
+
+    //     if (password !== confirmPassword) {
+    //         toast.error('As senhas não conferem!');
+    //         return;
+    //     }
+    //     console.log({ name, email, password });
+    // }
+
+
+    const queryClient = useQueryClient()
+
+
+    const { mutateAsync } = useMutation({
+        mutationFn: async ({ name, email, password }: SingUpForm) => {
+            await api.post('/accounts/signup', { name, email, password })
+        },
+        onSuccess: () => {
+            toast.success('Cadastro realizado com sucesso!');
+            navigate(`/sing-in?email=${email}`)
+        },
+        onError: () => {
+            console.log('Erro ao cadastrar!')
+        }
+    
+    }) 
+
+    const {register, handleSubmit} = useForm<SingUpForm>({
+        defaultValues: {
+            email: "",
+            name: "",
+            password: "",
+            confirmPassword: ""
+        },
+    })
+
+    async function handleSingUp ({ name, email, password, confirmPassword }: SingUpForm)  {
+        if (name === "" || email === ""  || password === ""  ) {
+            toast.error('Preencha todos os campos!', { duration: 3000 });
+            return;
+        }
+    
+        if (password !== confirmPassword) {
             toast.error('As senhas não conferem!');
             return;
         }
-
-        try {
-            console.log(data);
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-
-
-            toast.success('Usuário cadastrado com sucesso!',
-                {
-                    action: {
-                        label: 'Login',
-                        onClick: () => navigate('/sing-in'),
-                    }
-                }
-            );
-        } catch {
-            toast.error('Erro ao cadastrar o Usuario!');
-        }
-
-
-
+    
+        mutateAsync({
+            name, email, password,
+            confirmPassword: ""
+        })
+        console.log({ name, email, password });
     }
+
+    // async ({ name, email, password }: SingUpForm) => {
+    //     try {
+    //         await api.post('/accounts/signup', { name, email, password })
+    //         toast.success('Cadastro realizado com sucesso!');
+    //         navigate('/sing-in')
+    //     } catch (error) {
+    //         toast.error('Erro ao cadastrar!');
+    //     }
+    // }
 
     return (
         <>
@@ -67,29 +113,50 @@ export function SignUp() {
                     </div>
 
 
-                    <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
+                    <form onSubmit={handleSubmit(handleSingUp)} className="space-y-4">
 
                         <div className="space-y-2">
                             <Label htmlFor="name">Nome</Label>
-                            <Input id="name" type="text" {...register('name')} />
+                            <Input
+                                id="name"
+                                type="text"
+                                {...register('name')}
+                                //onChange= {e => setName(e.target.value)}
+                            />
+
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="email">E-mail:</Label>
-                            <Input id="email" type="text" {...register('email')} />
+                            <Input
+                                id="email"
+                                type="text"
+                                {...register('email')}
+                                onChange={e => setEmail(e.target.value)}
+                            />
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="password">Senha</Label>
-                            <Input id="password" type="password" {...register('password')} />
+                            <Input
+                                id="password"
+                                type="password"
+                                {...register('password')}
+                                //onChange={e => setPassword(e.target.value)}
+                            />
                         </div>
 
                         <div className="space-y-2 pb-10">
                             <Label htmlFor="confirmPassword">Confirmar a Senha</Label>
-                            <Input id="confirmPassword" type="password" {...register('confirmPassword')}/>
+                            <Input
+                                id="confirmPassword"
+                                type="password"
+                                {...register('confirmPassword')}
+                                //onChange={e => setConfirmPassword(e.target.value)}
+                            />
                         </div>
 
-                        <Button  className="w-full" type="submit">Finalizar Cadastro</Button>
+                        <Button className="w-full" type="submit" >Finalizar Cadastro</Button>
 
                         <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
                             Ao continuar, você concordas com nossos {' '} <a className="underline underline-offset-4" href="">Termos de serviço</a>{' '} e {' '} <a className="underline underline-offset-4" href="">Política de privacidade.</a>
