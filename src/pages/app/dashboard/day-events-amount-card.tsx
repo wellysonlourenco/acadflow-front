@@ -2,10 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QrCode } from "lucide-react";
 
 export function DayEventsAmountCard() {
+
+
+
     return (
         <Card>
             <CardHeader className="flex-row items-center space-y-0 justify-between pb-2">
-                <CardTitle className="text-base font-semibold">Total de Inscrições (Dia)</CardTitle>
+                <CardTitle className="text-base font-semibold">Total de Inscrições</CardTitle>
                 <QrCode className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent className="space-y-1">

@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     localStorage.clear();
     setUser(null);
     toast.success("Logout realizado com sucesso!");
-    return <Navigate to="/" />;
+    return <Navigate to="/sign-in" />;
   };
 
   return (

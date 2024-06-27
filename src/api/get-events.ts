@@ -5,6 +5,7 @@ export interface EventsResponse {
     pageIndex: number;
     perPage: number;
     totalPages: number;
+    totalCount: number;
 }
 
 export interface Event {

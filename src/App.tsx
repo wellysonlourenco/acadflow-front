@@ -15,9 +15,7 @@ export function App() {
       <AuthProvider>
       <ThemeProvider storageKey="acadflow-theme" defaultTheme="dark">
         <Helmet titleTemplate="%s | Acadflow" />
-        <Toaster richColors />
-
-
+          <Toaster richColors />
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>

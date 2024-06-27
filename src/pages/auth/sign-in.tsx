@@ -38,13 +38,12 @@ export function SignIn() {
 
 
     async function handleSignIn(data: SingInForm) {
-        signIn({ email: data.email, password: data.password }); 
-        
-        if(signed) {
+        signIn({ email: data.email, password: data.password });
+
+        if (signed) {
             return <Link to="/" />
         } else {
-            toast.error('Credenciais inválidas.')
-            
+            console.log("erro ao logar")
         }
 
     }
